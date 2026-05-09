@@ -12,7 +12,7 @@ import qrImg from '../image/img.png'
 const tabs = ['Dashboard', 'Attendance', 'Timetable']
 const inputClass = 'w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-700 outline-none transition-colors focus:border-blue-500'
 
-export default function StudentPortalPage({ session, onLogout, collegeProfile, courses, studentProfile, currentStudent, attendanceRecords, announcements, activeSession, onLinkStudentProfile, onMarkAttendance }) {
+export default function StudentPortalPage({ session, onLogout, collegeProfile, courses, studentProfile, currentStudent, attendanceRecords, announcements, activeSession, onLinkStudentProfile }) {
   const [activeTab, setActiveTab] = useState('Dashboard')
   const [setupCourseId, setSetupCourseId] = useState(studentProfile.courseId || '')
   const [setupSectionId, setSetupSectionId] = useState(studentProfile.sectionId || '')

@@ -42,23 +42,6 @@ function App() {
     })
   }
 
-  function markAttendance() {
-    // Basic validation before increasing attendance values.
-    const live = activeSession
-    if (!live) return { ok: false, message: 'No live attendance session is active right now.' }
-    if (studentProfile.sectionId !== live.sectionId) return { ok: false, message: 'The active session belongs to a different section.' }
-    if (live.presentStudentIds.includes(studentId)) return { ok: false, message: 'Attendance already marked for this session.' }
-
-    const updatedRecords = attendanceRecords.map((r) => {
-      if (r.subject !== live.subject || r.lastMarkedSessionId === live.id) return r
-      return { ...r, attended: r.attended + 1, total: r.total + 1, lastMarkedAt: timestamp(), lastMarkedSessionId: live.id }
-    })
-    const updatedSession = { ...live, presentStudentIds: [...live.presentStudentIds, studentId] }
-    const updatedStudents = students.map((s) => (s.id !== studentId ? s : { ...s, attendanceAverage: Math.min(s.attendanceAverage + 1, 99) }))
-
-    setData({ ...data, attendanceRecords: updatedRecords, activeSession: updatedSession, students: updatedStudents })
-    return { ok: true, message: 'Attendance marked for ' + live.subject + '.', subject: live.subject }
-  }
 
   // Login / Logout
   function handleLogin({ identifier, password }) {
@@ -85,7 +68,7 @@ function App() {
       <Route path="/student" element={
         session?.role !== 'student'
           ? <Navigate to="/login" replace />
-          : <StudentPortalPage session={session} onLogout={logout} collegeProfile={collegeProfile} courses={courses} studentProfile={studentProfile} currentStudent={currentStudent} attendanceRecords={recordsWithPercentage} announcements={announcements} activeSession={activeSession} onLinkStudentProfile={linkStudentProfile} onMarkAttendance={markAttendance} />
+          : <StudentPortalPage session={session} onLogout={logout} collegeProfile={collegeProfile} courses={courses} studentProfile={studentProfile} currentStudent={currentStudent} attendanceRecords={recordsWithPercentage} announcements={announcements} activeSession={activeSession} onLinkStudentProfile={linkStudentProfile} />
       } />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
